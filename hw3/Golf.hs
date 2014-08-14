@@ -20,15 +20,12 @@ localMaxima z = map (\(a,b,c) -> b)
 
 -- histogram
 
-occurs :: [Int] -> Int -> Int
-occurs xs n = length $ filter (== n) xs
-
 histogram :: [Int] -> String
 histogram xs = unlines
              . reverse
              . (:) "==========\n0123456789"
              . transpose
              $ zipWith (++) x y
-          where c = map (occurs xs) [0..9]
+          where c = map ((\a b -> length $ filter (== b) a) xs) [0..9]
                 x = map (flip replicate '*') c
                 y = map (flip replicate ' ') $ map ((-) $ maximum c) c
